@@ -1,0 +1,47 @@
+# Example old Helm values — works with both --component generic and --component loki
+replicaCount: 2
+
+image:
+  repository: grafana/loki
+  tag: "2.9.0"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: false
+
+persistence:
+  enabled: true
+  size: 10Gi
+
+loki:
+  limits_config:
+    retention_period: 168h
+    ingestion_rate_mb: 10
+
+  schemaConfig:
+    configs:
+      - from: "2020-10-24"
+        schema: v11
+        object_store: filesystem
+        store: boltdb-shipper
+
+  storage:
+    bucketNames:
+      chunks: loki-chunks-dev
+
+  compactor:
+    retention_enabled: false
+
+env:
+  - name: LOG_LEVEL
+    value: info

@@ -1,0 +1,35 @@
+# Binary output
+hvediff
+hvediff.exe
+
+# Go build cache
+/vendor/
+
+# Test artifacts
+report.md
+*.test
+
+# Claude Code local settings
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+
+# Sensitive files (never commit)
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+kubeconfig
+*kubeconfig*
+*secret*
+*credential*
+*token*
