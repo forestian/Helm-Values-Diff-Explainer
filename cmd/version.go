@@ -6,7 +6,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const Version = "0.1.0"
+// Version is set at build time via -ldflags "-X helm-values-diff-explainer/cmd.Version=<tag>".
+var Version = "0.1.0"
 
 var versionCmd = &cobra.Command{
 	Use:   "version",

@@ -34,9 +34,26 @@ Or run without installing:
 go run . diff --old values-old.yaml --new values-new.yaml
 ```
 
+### Install from GitHub Releases
+
+Download a prebuilt binary from the [GitHub Releases page](https://github.com/forestian/Helm-Values-Diff-Explainer/releases).
+
+**Linux / macOS:**
+```bash
+tar -xzf hvediff_<version>_<os>_<arch>.tar.gz
+chmod +x hvediff
+./hvediff version
+```
+
+**Windows:**
+```powershell
+# Extract the archive, then:
+.\hvediff.exe version
+```
+
 ### Requirements
 
-- Go 1.22 or later
+- Go 1.22 or later (build from source only)
 
 ---
 
