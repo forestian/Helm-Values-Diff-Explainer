@@ -144,11 +144,27 @@ jobs:
           cd dist
           sha256sum *.tar.gz | tee checksums.txt
 
-      - name: Upload assets to GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.ver.outputs.tag }}
-          fail_on_unmatched_files: true
-          files: |
-            dist/*.tar.gz
-            dist/checksums.txt
+      - name: Create release if it does not exist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.ver.outputs.tag }}"
+          if gh release view "$TAG" --repo "${{ github.repository }}" > /dev/null 2>&1; then
+            echo "Release $TAG already exists — skipping creation, will only upload assets"
+          else
+            echo "Release $TAG not found — creating"
+            gh release create "$TAG" \
+              --title "$TAG" \
+              --notes "Release $TAG" \
+              --repo "${{ github.repository }}"
+          fi
+
+      - name: Upload assets to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ steps.ver.outputs.tag }}" \
+            dist/*.tar.gz \
+            dist/checksums.txt \
+            --clobber \
+            --repo "${{ github.repository }}"
